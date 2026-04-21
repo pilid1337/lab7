@@ -133,18 +133,14 @@ class SecondPart
 
     public static void Task8_TVShows()
     {
-        Console.Write("Введите количество телешоу: ");
-        int showCount = ReadPositiveInt();
+        Console.Write("Введите названия всех телешоу через пробел: ");
+        string showsLine = Console.ReadLine();
+        string[] showNames = showsLine.Split(new char[] { ' ' }, 
+            StringSplitOptions.RemoveEmptyEntries);
         HashSet<string> allShows = new HashSet<string>();
-        string show;
-        Console.WriteLine("Введите названия шоу:");
-        for (int i = 0; i < showCount; i++)
+        foreach (string name in showNames)
         {
-            show = Console.ReadLine();
-            if (!string.IsNullOrEmpty(show))
-            {
-                allShows.Add(show);
-            }
+            allShows.Add(name);
         }
 
         Console.Write("Введите количество телезрителей: ");
@@ -175,8 +171,11 @@ class SecondPart
             someLike.UnionWith(likes);
         }
 
+        someLike.ExceptWith(allLike);
+
         HashSet<string> noneLike = new HashSet<string>(allShows);
         noneLike.ExceptWith(someLike);
+        noneLike.ExceptWith(allLike);
 
         Console.WriteLine("\nШоу, которые нравятся всем зрителям:");
         PrintSet(allLike);
@@ -227,9 +226,7 @@ class SecondPart
             Console.WriteLine("Цифр нет.");
         else
         {
-            List<char> sorted = new List<char>(digits);
-            sorted.Sort();
-            foreach (char d in sorted)
+            foreach (char d in digits)
                 Console.Write(d + " ");
             Console.WriteLine();
         }
@@ -240,9 +237,8 @@ class SecondPart
         Console.Write("Введите количество людей: ");
         int n = ReadPositiveInt();
 
-        Dictionary<string, (string firstName, 
-            DateTime birthDate)> people =
-            new Dictionary<string, (string, DateTime)>();
+        SortedList<DateTime, List<string>> peopleByDate = 
+            new SortedList<DateTime, List<string>>();
 
         for (int i = 0; i < n; i++)
         {
@@ -263,40 +259,33 @@ class SecondPart
                 Console.WriteLine("Неверный формат даты. Используйте ДД.ММ.ГГГГ. Пропускаем.");
                 continue;
             }
-            string fullKey = lastName + " " + firstName;
-            if (!people.ContainsKey(fullKey))
-                people.Add(fullKey, (firstName, birth));
+
+            string fullName = lastName + " " + firstName;
+            if (peopleByDate.ContainsKey(birth))
+            {
+                peopleByDate[birth].Add(fullName);
+            }
+            else
+            {
+                List<string> names = new List<string>();
+                names.Add(fullName);
+                peopleByDate.Add(birth, names);
+            }
         }
 
-        if (people.Count == 0)
+        if (peopleByDate.Count == 0)
         {
             Console.WriteLine("Нет корректных записей.");
             return;
         }
 
-        DateTime oldestDate = DateTime.MaxValue;
-        List<string> oldestNames = new List<string>();
-        foreach (var kvp in people)
+        if (peopleByDate.Values[0].Count == 1)
         {
-            if (kvp.Value.birthDate < oldestDate)
-            {
-                oldestDate = kvp.Value.birthDate;
-                oldestNames.Clear();
-                oldestNames.Add(kvp.Key);
-            }
-            else if (kvp.Value.birthDate == oldestDate)
-            {
-                oldestNames.Add(kvp.Key);
-            }
-        }
-
-        if (oldestNames.Count == 1)
-        {
-            Console.WriteLine($"Самый старший: {oldestNames[0]}");
+            Console.WriteLine($"Самый старший: {peopleByDate.Values[0][0]}");
         }
         else
         {
-            Console.WriteLine($"Количество самых старших людей: {oldestNames.Count}");
+            Console.WriteLine($"Количество самых старших людей: {peopleByDate.Values[0].Count}");
         }
     }
 

@@ -27,7 +27,6 @@
         Console.WriteLine("=== ЗАДАНИЕ 4: Метод NoRepeats ===");
         FirstPart.GenerateTask4File();
         FirstPart.NoRepeats();
-        Console.WriteLine("Готово. Проверьте выходной бинарный файл.\n");
 
 
         Console.WriteLine("=== ЗАДАНИЕ 5: Метод BinaryAndStruct ===");

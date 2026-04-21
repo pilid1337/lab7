@@ -12,3 +12,4 @@
 /home/pilid1337/ЯПы/lab7/obj/Debug/net8.0/lab7.pdb
 /home/pilid1337/ЯПы/lab7/obj/Debug/net8.0/lab7.genruntimeconfig.cache
 /home/pilid1337/ЯПы/lab7/obj/Debug/net8.0/ref/lab7.dll
+/home/pilid1337/ЯПы/lab7/obj/Debug/net8.0/lab7.sourcelink.json

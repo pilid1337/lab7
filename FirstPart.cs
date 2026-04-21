@@ -1,17 +1,23 @@
 ﻿using System.Xml.Serialization;
-class FirstPart
+public class FirstPart
 {
     public static int Sum(int inpDigit)
     {
         string s;
         int intString;
-        int digit;
         int sum = 0;
+        int lastDigit = -1;
 
         try
         {
             Console.Write("Введите имя исходного файла: ");
             string name = Console.ReadLine();
+
+            if (!File.Exists(name))
+            {
+                Console.WriteLine("Файл не найден.");
+                return 0;
+            }
 
             using (FileStream fP = new FileStream(name, FileMode.Open))
             using (StreamReader f = new StreamReader(fP))
@@ -19,12 +25,12 @@ class FirstPart
                 while ((s = f.ReadLine()) != null)
                 {
                     intString = int.Parse(s);
-                    digit = int.Abs(intString);
-                    while (digit > 10)
+                    lastDigit = Math.Abs(intString);
+                    while (lastDigit > 10)
                     {
-                        digit /= 10;
+                        lastDigit %= 10;
                     }
-                    if (digit == inpDigit)
+                    if (lastDigit == inpDigit)
                     {
                         sum += intString;
                     }
@@ -39,7 +45,7 @@ class FirstPart
 
         return sum;
     }
-
+    
     public static void Delta()
     {
         string s;
@@ -51,6 +57,12 @@ class FirstPart
         {
             Console.Write("Введите имя исходного файла: ");
             string name = Console.ReadLine();
+
+            if (!File.Exists(name))
+            {
+                Console.WriteLine("Файл не найден.");
+                return;
+            }
 
             using (FileStream fP = new FileStream(name, FileMode.Open))
             using (StreamReader f = new StreamReader(fP))
@@ -92,6 +104,12 @@ class FirstPart
         {
             Console.Write("Введите имя исходного файла: ");
             string name = Console.ReadLine();
+
+            if (!File.Exists(name))
+            {
+                Console.WriteLine("Файл не найден.");
+                return;
+            }
 
             using (FileStream inpFileP = 
                 new FileStream(name, FileMode.Open))
@@ -135,11 +153,21 @@ class FirstPart
 
     public static void NoRepeats()
     {
+        int number;
+        List<int> uniqueNumbers;
         try
         {
             Console.Write("Введите имя исходного файла: ");
             string name = Console.ReadLine();
 
+            if (!File.Exists(name))
+            {
+                Console.WriteLine("Файл не найден.");
+                return;
+            }
+            
+            ReadBinaryFile(name);
+            
             using (FileStream inpFileP = 
                 new FileStream(name, FileMode.Open))
             using (BinaryReader inpFile = 
@@ -153,12 +181,12 @@ class FirstPart
                 using (BinaryWriter newFile = 
                     new BinaryWriter(newFileP))
                 {
-                    List<int> uniqueNumbers = new List<int>();
+                    uniqueNumbers = new List<int>();
 
                     while (inpFile.BaseStream.Position 
                         < inpFile.BaseStream.Length)
                     {
-                        int number = inpFile.ReadInt32();
+                        number = inpFile.ReadInt32();
 
                         if (!uniqueNumbers.Contains(number))
                         {
@@ -167,12 +195,51 @@ class FirstPart
                         }
                     }
                 }
+                Console.WriteLine("Обработка завершена");
+                ReadBinaryFile(name);
             }
         }
         catch (Exception e)
         {
             Console.WriteLine(e.Message);
             return;
+        }
+    }
+
+    private static void ReadBinaryFile(string fileName)
+    {
+        int number;
+        if (!File.Exists(fileName))
+        {
+            Console.WriteLine("Файл не найден.");
+            return;
+        }
+
+        try
+        {
+            using (FileStream fs = new FileStream(fileName,
+                FileMode.Open))
+            using (BinaryReader reader = new BinaryReader(fs))
+            {
+                List<int> numbers = new List<int>();
+                while (reader.BaseStream.Position 
+                    < reader.BaseStream.Length)
+                {
+                    number = reader.ReadInt32();
+                    numbers.Add(number);
+                }
+
+                Console.WriteLine("Содержимое бинарного файла:");
+                for (int i = 0; i < numbers.Count; i++)
+                {
+                    Console.Write(numbers[i] + 
+                        (i < numbers.Count - 1 ? " " : "\n"));
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Ошибка при чтении файла: {e.Message}");
         }
     }
 
@@ -231,11 +298,6 @@ class FirstPart
                 maxAge = value; 
             }
         }
-
-        public override string ToString()
-        {
-            return $"{Name} (цена: {Price} руб., возраст: {MinAge}–{MaxAge} лет)";
-        }
     }
 
     private static List<Toy> LoadToysFromFile(FileStream reader)
@@ -250,6 +312,12 @@ class FirstPart
         {
             Console.Write("Введите имя исходного файла: ");
             string name = Console.ReadLine();
+
+            if (!File.Exists(name))
+            {
+                Console.WriteLine("Файл не найден.");
+                return;
+            }
 
             using (FileStream fP = new FileStream(name, FileMode.Open))
             {
@@ -300,13 +368,14 @@ class FirstPart
         string fileName = Console.ReadLine();
         Console.Write("Введите количество чисел: ");
         int count = int.Parse(Console.ReadLine());
+        int number;
 
         using (FileStream fs = new FileStream(fileName, FileMode.Create))
         using (StreamWriter sw = new StreamWriter(fs))
         {
             for (int i = 0; i < count; i++)
             {
-                int number = rnd.Next(-1000, 1001);
+                number = rnd.Next(-1000, 1001);
                 sw.WriteLine(number);
             }
         }
@@ -321,17 +390,20 @@ class FirstPart
         int lines = int.Parse(Console.ReadLine());
         Console.Write("Введите максимальное количество чисел в строке: ");
         int maxNumbersPerLine = int.Parse(Console.ReadLine());
+        int numbersInLine;
+        string line;
+        int number;
 
         using (FileStream fs = new FileStream(fileName, FileMode.Create))
         using (StreamWriter sw = new StreamWriter(fs))
         {
             for (int i = 0; i < lines; i++)
             {
-                int numbersInLine = rnd.Next(1, maxNumbersPerLine + 1);
-                string line = "";
+                numbersInLine = rnd.Next(1, maxNumbersPerLine + 1);
+                line = "";
                 for (int j = 0; j < numbersInLine; j++)
                 {
-                    int number = rnd.Next(-100, 101);
+                    number = rnd.Next(-100, 101);
                     line += number;
                     if (j < numbersInLine - 1) line += " ";
                 }
@@ -350,21 +422,23 @@ class FirstPart
 
         string[] words = { "hello", "world", "csharp", "programming", "file", "text", "random", "simple", "example", "code" };
         char[] punctuation = { '.', ',', '!', '?', '-', ';', '"'};
+        int wordCount;
+        string sentence;
+        string word;
 
         using (FileStream fs = new FileStream(fileName, FileMode.Create))
         using (StreamWriter sw = new StreamWriter(fs))
         {
             for (int i = 0; i < lines; i++)
             {
-                int wordCount = rnd.Next(3, 10);
-                string sentence = "";
+                wordCount = rnd.Next(3, 10);
+                sentence = "";
                 for (int j = 0; j < wordCount; j++)
                 {
-                    string word = words[rnd.Next(words.Length)];
+                    word = words[rnd.Next(words.Length)];
                     sentence += word;
                     if (j < wordCount - 1) sentence += " ";
                 }
-                // Иногда добавляем знак пунктуации в конце
                 if (rnd.Next(0, 2) == 0)
                 {
                     sentence += punctuation[rnd.Next(punctuation.Length)];
@@ -381,13 +455,14 @@ class FirstPart
         string fileName = Console.ReadLine();
         Console.Write("Введите количество целых чисел: ");
         int count = int.Parse(Console.ReadLine());
+        int number;
 
         using (FileStream fs = new FileStream(fileName, FileMode.Create))
         using (BinaryWriter bw = new BinaryWriter(fs))
         {
             for (int i = 0; i < count; i++)
             {
-                int number = rnd.Next(-10000, 10001);
+                number = rnd.Next(-5, 5);
                 bw.Write(number);
             }
         }
@@ -404,10 +479,11 @@ class FirstPart
         List<Toy> toys = new List<Toy>();
         string[] names = { "Кубики", "Мяч", "Пирамидка", "Машинка", "Кукла", "Пазл", "Конструктор", "Лото" };
         decimal[] prices = { 150m, 200m, 300m, 500m, 700m, 250m, 1000m, 400m };
+        Toy toy;
 
         for (int i = 0; i < count; i++)
         {
-            Toy toy = new Toy();
+            toy = new Toy();
             toy.Name = names[rnd.Next(names.Length)];
             toy.Price = prices[rnd.Next(prices.Length)];
             toy.MinAge = rnd.Next(0, 10);
