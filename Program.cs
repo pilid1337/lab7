@@ -35,11 +35,16 @@
 
 
         Console.WriteLine("\n=== ЗАДАНИЕ 6: Симметрическая разность списков ===");
-        SecondPart.Task6_SymmetricDifference();
+        List<int> L1 = ReadList("первого");
+        List<int> L2 = ReadList("второго");
+        Console.WriteLine("Результирующий список (симметрическая разность):");
+        PrintList(SecondPart.Task6_SymmetricDifference(L1, L2));
 
 
         Console.WriteLine("\n=== ЗАДАНИЕ 7: Удаление элементов между min и max (LinkedList) ===");
-        SecondPart.Task7_RemoveBetweenMinMax();
+        LinkedList<int> list = ReadLinkedList();
+        Console.WriteLine("Результат после удаления:");
+        PrintLinkedList(SecondPart.Task7_RemoveBetweenMinMax(list));
 
 
         Console.WriteLine("\n=== ЗАДАНИЕ 8: Анализ телешоу (HashSet) ===");
@@ -52,5 +57,53 @@
 
         Console.WriteLine("\n=== ЗАДАНИЕ 10: Самый старший человек ===");
         SecondPart.Task10_OldestPerson();
+    }
+
+    private static List<int> ReadList(string name)
+    {
+        List<int> list = new List<int>();
+        Console.Write($"Введите элементы {name} списка через пробел: ");
+        string[] parts = Console.ReadLine().Split(new char[] { ' ' },
+            StringSplitOptions.RemoveEmptyEntries);
+        foreach (string part in parts)
+        {
+            if (int.TryParse(part, out int val))
+                list.Add(val);
+            else
+                Console.WriteLine($"Некорректное число '{part}' пропущено.");
+        }
+        return list;
+    }
+    
+    private static void PrintList(List<int> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            Console.Write(list[i] + (i < list.Count - 1 ? " " : ""));
+        }
+        Console.WriteLine();
+    }
+
+    private static LinkedList<int> ReadLinkedList()
+    {
+        LinkedList<int> list = new LinkedList<int>();
+        Console.Write("Введите элементы связного списка через пробел: ");
+        string[] parts = Console.ReadLine().Split(new char[] { ' ' },
+            StringSplitOptions.RemoveEmptyEntries);
+        foreach (string part in parts)
+        {
+            if (int.TryParse(part, out int val))
+            {
+                list.AddLast(val);
+            }
+        }
+        return list;
+    }
+
+    private static void PrintLinkedList(LinkedList<int> list)
+    {
+        foreach (int val in list)
+            Console.Write(val + " ");
+        Console.WriteLine();
     }
 }

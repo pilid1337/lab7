@@ -1,10 +1,84 @@
 ﻿using System.Xml.Serialization;
-public class FirstPart
+
+[Serializable]
+public struct Toy
 {
+    private string _name;
+    private decimal _price;
+    private int _minAge;
+    private int _maxAge;
+
+    public Toy(string name, decimal price, int minAge, int maxAge)
+    {
+        _name = name;
+        _price = price;
+        _minAge = minAge;
+        _maxAge = maxAge;
+    }
+
+    public string Name
+    {
+        get 
+        { 
+            return _name; 
+        }
+        private set
+        { 
+            _name = value; 
+        }
+    }
+
+    public decimal Price
+    {
+        get 
+        { 
+            return _price; 
+        }
+        private set 
+        { 
+            _price = value; 
+        }
+    }
+
+    public int MinAge
+    {
+        get 
+        { 
+            return _minAge; 
+        }
+        private set 
+        { 
+            _minAge = value; 
+        }
+    }
+
+    public int MaxAge
+    {
+        get 
+        { 
+            return _maxAge; 
+        }
+        private set 
+        { 
+            _maxAge = value; 
+        }
+    }
+}
+
+class FirstPart
+{
+
+    private static Random _rnd;
+
+    static FirstPart()
+    {
+        _rnd = new Random();
+    }
+
     public static int Sum(int inpDigit)
     {
-        string s;
-        int intString;
+        string s = "";
+        int intString = 0;
         int sum = 0;
         int lastDigit = -1;
 
@@ -48,10 +122,10 @@ public class FirstPart
     
     public static void Delta()
     {
-        string s;
-        string[] stringArray;
-        int[] intArray;
-        int min;
+        string s = "";
+        string[] stringArray = [];
+        int[] intArray = [];
+        int min = 0;
 
         try
         {
@@ -96,8 +170,8 @@ public class FirstPart
 
     public static void Rewrite()
     {
-        string s;
-        bool hasPunctuation;
+        string s = "";
+        bool hasPunctuation = false;
         char[] punctuationMarks = ['.', ',', '!', '?', '-', ';', '"'];
 
         try
@@ -153,8 +227,8 @@ public class FirstPart
 
     public static void NoRepeats()
     {
-        int number;
-        List<int> uniqueNumbers;
+        int number = 0;
+        List<int> uniqueNumbers = new List<int>();
         try
         {
             Console.Write("Введите имя исходного файла: ");
@@ -208,7 +282,7 @@ public class FirstPart
 
     private static void ReadBinaryFile(string fileName)
     {
-        int number;
+        int number = 0;
         if (!File.Exists(fileName))
         {
             Console.WriteLine("Файл не найден.");
@@ -240,63 +314,6 @@ public class FirstPart
         catch (Exception e)
         {
             Console.WriteLine($"Ошибка при чтении файла: {e.Message}");
-        }
-    }
-
-    [Serializable]
-    public struct Toy
-    {
-        private string name;
-        private decimal price;
-        private int minAge;
-        private int maxAge;
-
-        public string Name
-        {
-            get 
-            { 
-                return name; 
-            }
-            set
-            { 
-                name = value; 
-            }
-        }
-
-        public decimal Price
-        {
-            get 
-            { 
-                return price; 
-            }
-            set 
-            { 
-                price = value; 
-            }
-        }
-
-        public int MinAge
-        {
-            get 
-            { 
-                return minAge; 
-            }
-            set 
-            { 
-                minAge = value; 
-            }
-        }
-
-        public int MaxAge
-        {
-            get 
-            { 
-                return maxAge; 
-            }
-            set 
-            { 
-                maxAge = value; 
-            }
         }
     }
 
@@ -360,8 +377,6 @@ public class FirstPart
         }
     }
 
-    private static Random rnd = new Random();
-
     public static void GenerateTask1File()
     {
         Console.Write("Введите имя файла для генерации: ");
@@ -384,7 +399,7 @@ public class FirstPart
         {
             for (int i = 0; i < count; i++)
             {
-                number = rnd.Next(-1000, 1001);
+                number = _rnd.Next(-1000, 1001);
                 sw.WriteLine(number);
             }
         }
@@ -419,11 +434,11 @@ public class FirstPart
         {
             for (int i = 0; i < lines; i++)
             {
-                numbersInLine = rnd.Next(1, maxNumbersPerLine + 1);
+                numbersInLine = _rnd.Next(1, maxNumbersPerLine + 1);
                 line = "";
                 for (int j = 0; j < numbersInLine; j++)
                 {
-                    number = rnd.Next(-100, 101);
+                    number = _rnd.Next(-100, 101);
                     line += number;
                     if (j < numbersInLine - 1) line += " ";
                 }
@@ -460,17 +475,17 @@ public class FirstPart
         {
             for (int i = 0; i < lines; i++)
             {
-                wordCount = rnd.Next(3, 10);
+                wordCount = _rnd.Next(3, 10);
                 sentence = "";
                 for (int j = 0; j < wordCount; j++)
                 {
-                    word = words[rnd.Next(words.Length)];
+                    word = words[_rnd.Next(words.Length)];
                     sentence += word;
                     if (j < wordCount - 1) sentence += " ";
                 }
-                if (rnd.Next(0, 2) == 0)
+                if (_rnd.Next(0, 2) == 0)
                 {
-                    sentence += punctuation[rnd.Next(punctuation.Length)];
+                    sentence += punctuation[_rnd.Next(punctuation.Length)];
                 }
                 sw.WriteLine(sentence);
             }
@@ -501,7 +516,7 @@ public class FirstPart
         {
             for (int i = 0; i < count; i++)
             {
-                number = rnd.Next(-5, 5);
+                number = _rnd.Next(-5, 5);
                 bw.Write(number);
             }
         }
@@ -527,15 +542,11 @@ public class FirstPart
         List<Toy> toys = new List<Toy>();
         string[] names = { "Кубики", "Мяч", "Пирамидка", "Машинка", "Кукла", "Пазл", "Конструктор", "Лото" };
         decimal[] prices = { 150m, 200m, 300m, 500m, 700m, 250m, 1000m, 400m };
-        Toy toy;
+        Toy toy = new Toy("", 0, 0, 0);
 
         for (int i = 0; i < count; i++)
         {
-            toy = new Toy();
-            toy.Name = names[rnd.Next(names.Length)];
-            toy.Price = prices[rnd.Next(prices.Length)];
-            toy.MinAge = rnd.Next(0, 10);
-            toy.MaxAge = toy.MinAge + rnd.Next(1, 6);
+            toy = new Toy(names[_rnd.Next(names.Length)], prices[_rnd.Next(prices.Length)], _rnd.Next(0, 10), toy.MinAge + _rnd.Next(1, 6));
             toys.Add(toy);
         }
 

@@ -1,10 +1,7 @@
 class SecondPart
 {
-    public static void Task6_SymmetricDifference()
+    public static List<int> Task6_SymmetricDifference(List<int> L1, List<int> L2)
     {
-        List<int> L1 = ReadList("первого");
-        List<int> L2 = ReadList("второго");
-
         List<int> result = new List<int>();
 
         foreach (int item in L1)
@@ -22,41 +19,15 @@ class SecondPart
                 result.Add(item);
             }
         }
-
-        Console.WriteLine("Результирующий список (симметрическая разность):");
-        PrintList(result);
+        return result;
     }
 
-    private static List<int> ReadList(string name)
+    public static LinkedList<int> Task7_RemoveBetweenMinMax(LinkedList<int> list)
     {
-        List<int> list = new List<int>();
-        Console.Write($"Введите элементы {name} списка через пробел: ");
-        string[] parts = Console.ReadLine().Split(new char[] { ' ' },
-            StringSplitOptions.RemoveEmptyEntries);
-        foreach (string part in parts)
-        {
-            if (int.TryParse(part, out int val))
-                list.Add(val);
-            else
-                Console.WriteLine($"Некорректное число '{part}' пропущено.");
-        }
-        return list;
-    }
-
-    private static void PrintList(List<int> list)
-    {
-        for (int i = 0; i < list.Count; i++)
-            Console.Write(list[i] + (i < list.Count - 1 ? " " : ""));
-        Console.WriteLine();
-    }
-
-    public static void Task7_RemoveBetweenMinMax()
-    {
-        LinkedList<int> list = ReadLinkedList();
         if (list.Count < 3)
         {
             Console.WriteLine("Список слишком короткий, удаление невозможно.");
-            return;
+            return new LinkedList<int>();
         }
 
         LinkedListNode<int> minNode = list.First;
@@ -90,23 +61,6 @@ class SecondPart
             node = next;
         }
 
-        Console.WriteLine("Результат после удаления:");
-        PrintLinkedList(list);
-    }
-
-    private static LinkedList<int> ReadLinkedList()
-    {
-        LinkedList<int> list = new LinkedList<int>();
-        Console.Write("Введите элементы связного списка через пробел: ");
-        string[] parts = Console.ReadLine().Split(new char[] { ' ' },
-            StringSplitOptions.RemoveEmptyEntries);
-        foreach (string part in parts)
-        {
-            if (int.TryParse(part, out int val))
-            {
-                list.AddLast(val);
-            }
-        }
         return list;
     }
 
@@ -122,13 +76,6 @@ class SecondPart
             index++;
         }
         return -1;
-    }
-
-    private static void PrintLinkedList(LinkedList<int> list)
-    {
-        foreach (int val in list)
-            Console.Write(val + " ");
-        Console.WriteLine();
     }
 
     public static void Task8_TVShows()
@@ -216,14 +163,18 @@ class SecondPart
                 foreach (char ch in line)
                 {
                     if (ch >= '0' && ch <= '9')
+                    {
                         digits.Add(ch);
+                    }
                 }
             }
         }
 
         Console.WriteLine("Цифры, встречающиеся в файле:");
         if (digits.Count == 0)
+        {
             Console.WriteLine("Цифр нет.");
+        }
         else
         {
             foreach (char d in digits)
@@ -291,7 +242,7 @@ class SecondPart
 
     private static int ReadPositiveInt()
     {
-        int result;
+        int result = 0;
         while (!int.TryParse(Console.ReadLine(), out result) 
             || result <= 0)
         {
