@@ -367,7 +367,16 @@ public class FirstPart
         Console.Write("Введите имя файла для генерации: ");
         string fileName = Console.ReadLine();
         Console.Write("Введите количество чисел: ");
-        int count = int.Parse(Console.ReadLine());
+        int count;
+        try
+        {
+            count = int.Parse(Console.ReadLine());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Ошибка при вводе: {e.Message}");
+            return;
+        }
         int number;
 
         using (FileStream fs = new FileStream(fileName, FileMode.Create))
@@ -386,10 +395,21 @@ public class FirstPart
     {
         Console.Write("Введите имя файла для генерации: ");
         string fileName = Console.ReadLine();
-        Console.Write("Введите количество строк: ");
-        int lines = int.Parse(Console.ReadLine());
-        Console.Write("Введите максимальное количество чисел в строке: ");
-        int maxNumbersPerLine = int.Parse(Console.ReadLine());
+        int lines;
+        int maxNumbersPerLine;
+        try
+        {
+            Console.Write("Введите количество строк: ");
+            lines = int.Parse(Console.ReadLine());
+            Console.Write("Введите максимальное количество чисел в строке: ");
+            maxNumbersPerLine = int.Parse(Console.ReadLine());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Ошибка при вводе: {e.Message}");
+            return;
+        }
+
         int numbersInLine;
         string line;
         int number;
@@ -417,8 +437,17 @@ public class FirstPart
     {
         Console.Write("Введите имя файла для генерации: ");
         string fileName = Console.ReadLine();
-        Console.Write("Введите количество строк: ");
-        int lines = int.Parse(Console.ReadLine());
+        int lines;
+        try
+        {
+            Console.Write("Введите количество строк: ");
+            lines = int.Parse(Console.ReadLine());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Ошибка при вводе: {e.Message}");
+            return;
+        }
 
         string[] words = { "hello", "world", "csharp", "programming", "file", "text", "random", "simple", "example", "code" };
         char[] punctuation = { '.', ',', '!', '?', '-', ';', '"'};
@@ -453,8 +482,18 @@ public class FirstPart
     {
         Console.Write("Введите имя бинарного файла для генерации: ");
         string fileName = Console.ReadLine();
-        Console.Write("Введите количество целых чисел: ");
-        int count = int.Parse(Console.ReadLine());
+        int count;
+        try
+        {
+            Console.Write("Введите количество целых чисел: ");
+            count = int.Parse(Console.ReadLine());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Ошибка при вводе: {e.Message}");
+            return;
+        }
+
         int number;
 
         using (FileStream fs = new FileStream(fileName, FileMode.Create))
@@ -473,8 +512,17 @@ public class FirstPart
     {
         Console.Write("Введите имя XML-файла для генерации: ");
         string fileName = Console.ReadLine();
-        Console.Write("Введите количество игрушек: ");
-        int count = int.Parse(Console.ReadLine());
+        int count;
+        try
+        {
+            Console.Write("Введите количество игрушек: ");
+            count = int.Parse(Console.ReadLine());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Ошибка при вводе: {e.Message}");
+            return;
+        }
 
         List<Toy> toys = new List<Toy>();
         string[] names = { "Кубики", "Мяч", "Пирамидка", "Машинка", "Кукла", "Пазл", "Конструктор", "Лото" };
